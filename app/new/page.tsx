@@ -81,12 +81,19 @@ export default function NewRecipePage() {
             </button>
           </div>
 
-          <div className='text-center'>
+          <div className='flex justify-center gap-2'>
             <button
               type='submit'
               className='bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full shadow transition'
             >
               登録
+            </button>
+            <button
+              type='button'
+              onClick={() => router.push("/")}
+              className='text-orange-700 border border-orange-400 hover:bg-orange-100 py-2 px-6 rounded-full transition'
+            >
+              一覧へ
             </button>
           </div>
         </form>
