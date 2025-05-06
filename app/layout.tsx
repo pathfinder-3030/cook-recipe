@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "レシピ帳",
   description: "おいしい手作りレシピを簡単に記録・管理できるアプリ",
+  icons: {
+    icon: "favicon.png",
+  },
 };
 
 export default function RootLayout({
