@@ -17,3 +17,9 @@ export const getRecipes = (): Recipe[] => {
 export const getRecipeById = (id: string): Recipe | undefined => {
   return getRecipes().find((recipe) => recipe.id === id);
 };
+
+export const deleteRecipeById = (id: string) => {
+  const recipes = getRecipes();
+  const updated = recipes.filter((recipe) => recipe.id !== id);
+  localStorage.setItem("recipes", JSON.stringify(updated));
+};

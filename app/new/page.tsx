@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { saveRecipe } from "@/utils/storage";
 import { Recipe } from "@/types/recipe";
+import { Microwave } from "lucide-react";
 
 export default function NewRecipePage() {
   const [title, setTitle] = useState("");
@@ -38,12 +39,10 @@ export default function NewRecipePage() {
   return (
     <main className='min-h-screen bg-yellow-50 py-12 px-4 flex items-center justify-center'>
       <div className='max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-orange-200 w-100'>
-        <h1 className='text-2xl font-bold text-center text-orange-800 flex items-center justify-center gap-2 mb-6'>
-          <span role='img' aria-label='pencil'>
-            📝
-          </span>
-          レシピを追加
-        </h1>
+        <div className='flex items-center justify-center gap-1 mb-2'>
+          <Microwave size={30} className='text-orange-600' />
+          <h1 className='text-3xl font-bold  text-orange-600'>レシピを追加</h1>
+        </div>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
           <div>
@@ -75,7 +74,7 @@ export default function NewRecipePage() {
             <button
               type='button'
               onClick={handleAddIngredient}
-              className='mt-3 inline-block text-sm text-orange-600 hover:underline'
+              className='mt-3 inline-block text-sm text-orange-600 hover:underline cursor-pointer'
             >
               ＋ 材料を追加
             </button>
@@ -84,14 +83,14 @@ export default function NewRecipePage() {
           <div className='flex justify-center gap-2'>
             <button
               type='submit'
-              className='bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full shadow transition'
+              className='bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full shadow transition cursor-pointer'
             >
               登録
             </button>
             <button
               type='button'
               onClick={() => router.push("/")}
-              className='text-orange-700 border border-orange-400 hover:bg-orange-100 py-2 px-6 rounded-full transition'
+              className='text-orange-700 border border-orange-400 hover:bg-orange-100 py-2 px-6 rounded-full transition cursor-pointer'
             >
               一覧へ
             </button>
