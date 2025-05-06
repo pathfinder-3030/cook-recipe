@@ -7,18 +7,26 @@ import { saveRecipe } from "@/utils/storage";
 import { Recipe } from "@/types/recipe";
 import { Microwave } from "lucide-react";
 
+const units = ["g", "kg", "ml", "L", "個", "本", "大さじ", "小さじ", "適量"];
+
 export default function NewRecipePage() {
   const [title, setTitle] = useState("");
-  const [ingredients, setIngredients] = useState<string[]>([""]);
+  const [ingredients, setIngredients] = useState<{ name: string; amount: string; unit: string }[]>([
+    { name: "", amount: "", unit: "" },
+  ]);
   const router = useRouter();
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, ""]);
+    setIngredients([...ingredients, { name: "", amount: "", unit: "" }]);
   };
 
-  const handleChangeIngredient = (index: number, value: string) => {
+  const handleChangeIngredient = (
+    index: number,
+    key: "name" | "amount" | "unit",
+    value: string
+  ) => {
     const updated = [...ingredients];
-    updated[index] = value;
+    updated[index][key] = value;
     setIngredients(updated);
   };
 
@@ -29,7 +37,9 @@ export default function NewRecipePage() {
     const recipe: Recipe = {
       id: uuidv4(),
       title,
-      ingredients: ingredients.filter((item) => item.trim() !== ""),
+      ingredients: ingredients
+        .filter((item) => item.name.trim() !== "")
+        .map((item) => `${item.name} ${item.amount || ""}${item.unit || "適量"}`),
     };
 
     saveRecipe(recipe);
@@ -61,14 +71,34 @@ export default function NewRecipePage() {
             <label className='block mb-2 text-sm font-medium text-gray-700'>材料</label>
             <div className='space-y-2'>
               {ingredients.map((ingredient, index) => (
-                <input
-                  key={index}
-                  type='text'
-                  value={ingredient}
-                  onChange={(e) => handleChangeIngredient(index, e.target.value)}
-                  placeholder={`材料 ${index + 1}`}
-                  className='w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-200'
-                />
+                <div key={index} className='flex items-center gap-2'>
+                  <input
+                    type='text'
+                    value={ingredient.name}
+                    onChange={(e) => handleChangeIngredient(index, "name", e.target.value)}
+                    placeholder={`材料 ${index + 1}`}
+                    className='w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-200'
+                  />
+                  <input
+                    type='text'
+                    value={ingredient.amount}
+                    onChange={(e) => handleChangeIngredient(index, "amount", e.target.value)}
+                    placeholder='数量'
+                    className='w-24 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-200'
+                  />
+                  <select
+                    value={ingredient.unit}
+                    onChange={(e) => handleChangeIngredient(index, "unit", e.target.value)}
+                    className='h-[42px] border border-gray-300 rounded-md px-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200'
+                  >
+                    <option value=''>---</option>
+                    {units.map((unit) => (
+                      <option key={unit} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               ))}
             </div>
             <button
